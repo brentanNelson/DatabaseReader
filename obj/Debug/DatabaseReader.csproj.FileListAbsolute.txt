@@ -1,0 +1,6 @@
+D:\projects\DatabaseReader\DatabaseReader\bin\Debug\DatabaseReader.exe.config
+D:\projects\DatabaseReader\DatabaseReader\bin\Debug\DatabaseReader.exe
+D:\projects\DatabaseReader\DatabaseReader\bin\Debug\DatabaseReader.pdb
+D:\projects\DatabaseReader\DatabaseReader\obj\Debug\DatabaseReader.csprojResolveAssemblyReference.cache
+D:\projects\DatabaseReader\DatabaseReader\obj\Debug\DatabaseReader.exe
+D:\projects\DatabaseReader\DatabaseReader\obj\Debug\DatabaseReader.pdb
