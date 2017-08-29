@@ -1,0 +1,12 @@
+D:\projects\DatabaseReader\bin\Release\DatabaseReader.exe.config
+D:\projects\DatabaseReader\bin\Release\DatabaseReader.exe
+D:\projects\DatabaseReader\bin\Release\DatabaseReader.pdb
+D:\projects\DatabaseReader\obj\Release\DatabaseReader.exe
+D:\projects\DatabaseReader\obj\Release\DatabaseReader.pdb
+D:\projects\DatabaseReader\bin\Release\Google.Protobuf.dll
+D:\projects\DatabaseReader\bin\Release\MySql.Data.dll
+D:\projects\DatabaseReader\bin\Release\System.Runtime.InteropServices.RuntimeInformation.dll
+D:\projects\DatabaseReader\bin\Release\Google.Protobuf.xml
+E:\Projects\DatabaseReader\bin\Release\DatabaseReader.exe.config
+E:\Projects\DatabaseReader\obj\Release\DatabaseReader.exe
+E:\Projects\DatabaseReader\obj\Release\DatabaseReader.pdb

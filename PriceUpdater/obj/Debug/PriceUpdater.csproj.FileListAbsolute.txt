@@ -1,0 +1,9 @@
+E:\Projects\DatabaseReader\PriceUpdater\bin\Debug\PriceUpdater.exe.config
+E:\Projects\DatabaseReader\PriceUpdater\bin\Debug\PriceUpdater.exe
+E:\Projects\DatabaseReader\PriceUpdater\bin\Debug\PriceUpdater.pdb
+E:\Projects\DatabaseReader\PriceUpdater\bin\Debug\CsvHelper.dll
+E:\Projects\DatabaseReader\PriceUpdater\bin\Debug\MySql.Data.dll
+E:\Projects\DatabaseReader\PriceUpdater\bin\Debug\CsvHelper.xml
+E:\Projects\DatabaseReader\PriceUpdater\obj\Debug\PriceUpdater.csprojResolveAssemblyReference.cache
+E:\Projects\DatabaseReader\PriceUpdater\obj\Debug\PriceUpdater.exe
+E:\Projects\DatabaseReader\PriceUpdater\obj\Debug\PriceUpdater.pdb
