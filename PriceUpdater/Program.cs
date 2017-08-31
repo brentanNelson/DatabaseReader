@@ -15,8 +15,18 @@ namespace PriceUpdater
     {
         static void Main(string[] args)
         {
-            var csvData = ReadCsv();
-            var update = UpdatePrices(csvData);
+            try
+            {
+                var csvData = ReadCsv();
+                var update = UpdatePrices(csvData);
+                Console.Read();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                Console.WriteLine(e);
+                Console.Read();
+            }
         }
 
         static List<UpdatedPriceData> ReadCsv()
@@ -42,16 +52,17 @@ namespace PriceUpdater
             foreach (var priceData in newPriceData)
             {
                 double parseResult;
+                var isADouble  = Double.TryParse(priceData.CostP1, out parseResult);
                 Console.WriteLine($"Attempting to set {priceData.Product} to ${priceData.CostP1}");
-                if (string.IsNullOrWhiteSpace(priceData.Product) || Double.TryParse(priceData.CostP1, out parseResult))
+                if (string.IsNullOrWhiteSpace(priceData.Product) || !isADouble)
                 {
                     Console.Error.WriteLine($"Error: Invalid data in {priceData.Product} or {priceData.CostP1}, product must not be empty and costp1 should be a double value.");
                     break;
                 }
                 
                 var query = $@"UPDATE prodsite,
-                           SET COSTP1 = '{priceData.CostP1}'
-                           WHERE PRODUCT = '{priceData.Product}'";
+                           SET COSTP1 = {priceData.CostP1}
+                           WHERE PRODUCT = {priceData.Product}";
 
                 using (var connection = new MySqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString))
                 using (var command = new MySqlCommand(query, connection))
@@ -66,12 +77,12 @@ namespace PriceUpdater
                     }
                     catch (MySqlException exSql)
                     {
-                        Console.Error.WriteLine("Error - SQL Exception: " + query);
+                        Console.Error.WriteLine("Error - SQL Exception: " + exSql);
                         Console.Error.WriteLine(exSql.StackTrace);
                     }
                     catch (Exception ex)
                     {
-                        Console.Error.WriteLine("Error - Exception: " + query);
+                        Console.Error.WriteLine("Error - Exception: " + ex);
                         Console.Error.WriteLine(ex.StackTrace);
                     }
                 }

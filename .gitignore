@@ -1,0 +1,7 @@
+
+DatabaseReader/bin/
+PriceUpdater/bin/
+DatabaseReader/obj/
+PriceUpdater/obj/
+DatabaseReader/.vs/
+PriceUpdater/.vs/
