@@ -60,9 +60,9 @@ namespace PriceUpdater
                     break;
                 }
                 
-                var query = $@"UPDATE prodsite,
+                var query = $@"UPDATE prodsite
                            SET COSTP1 = {priceData.CostP1}
-                           WHERE PRODUCT = {priceData.Product}";
+                           WHERE PRODUCT = '{priceData.Product}';";
 
                 using (var connection = new MySqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString))
                 using (var command = new MySqlCommand(query, connection))
