@@ -51,15 +51,6 @@ namespace PriceUpdater
             var totalUpdated = 0;
             foreach (var priceData in newPriceData)
             {
-                double parseResult;
-                var isADouble  = Double.TryParse(priceData.CostP1, out parseResult);
-                Console.WriteLine($"Attempting to set {priceData.Product} to ${priceData.CostP1}");
-                if (string.IsNullOrWhiteSpace(priceData.Product) || !isADouble)
-                {
-                    Console.Error.WriteLine($"Error: Invalid data in {priceData.Product} or {priceData.CostP1}, product must not be empty and costp1 should be a double value.");
-                    break;
-                }
-
                 var query = BuildQuery(priceData);
 
                 Console.WriteLine(query);
@@ -88,7 +79,7 @@ namespace PriceUpdater
                         Console.Error.WriteLine(ex.StackTrace);
                     }
                 }
-
+        
                 if (!string.IsNullOrWhiteSpace(priceData.Barcode))
                 {
                     var barcodeQuery = $@"UPDATE prodsupp
@@ -158,7 +149,7 @@ namespace PriceUpdater
                 query += $" PRODUCT = '{priceData.NewProductCode}',";
             }
 
-            query.TrimEnd(',');
+            query = query.TrimEnd(',');
 
             query += $" WHERE PRODUCT = '{priceData.Product}';";
 
