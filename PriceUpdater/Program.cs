@@ -59,10 +59,11 @@ namespace PriceUpdater
                     Console.Error.WriteLine($"Error: Invalid data in {priceData.Product} or {priceData.CostP1}, product must not be empty and costp1 should be a double value.");
                     break;
                 }
-                
-                var query = $@"UPDATE prodsite
-                           SET COSTP1 = {priceData.CostP1}
-                           WHERE PRODUCT = '{priceData.Product}';";
+
+                var query = BuildQuery(priceData);
+
+                Console.WriteLine(query);
+                Console.ReadLine();
 
                 using (var connection = new MySqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString))
                 using (var command = new MySqlCommand(query, connection))
@@ -74,6 +75,7 @@ namespace PriceUpdater
                         var updatedRows = command.ExecuteNonQuery();
                         totalUpdated += updatedRows;
                         Console.WriteLine($"Successfully updated {updatedRows} rows.");
+                        connection.Close();
                     }
                     catch (MySqlException exSql)
                     {
@@ -86,10 +88,81 @@ namespace PriceUpdater
                         Console.Error.WriteLine(ex.StackTrace);
                     }
                 }
+
+                if (!string.IsNullOrWhiteSpace(priceData.Barcode))
+                {
+                    var barcodeQuery = $@"UPDATE prodsupp
+                                          SET BARCODE = {priceData.Barcode}
+                                          WHERE PRODUCT = '{priceData.Product}';";
+
+                    using (var connection = new MySqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString))
+                    using (var command = new MySqlCommand(barcodeQuery, connection))
+                    {
+                        Console.WriteLine("Opening connection to write barcode");
+                        try
+                        {
+                            connection.Open();
+                            var updatedRows = command.ExecuteNonQuery();
+                            totalUpdated += updatedRows;
+                            Console.WriteLine($"Successfully updated {updatedRows} rows.");
+                            connection.Close();
+                        }
+                        catch (MySqlException exSql)
+                        {
+                            Console.Error.WriteLine("Error - SQL Exception: " + exSql);
+                            Console.Error.WriteLine(exSql.StackTrace);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.Error.WriteLine("Error - Exception: " + ex);
+                            Console.Error.WriteLine(ex.StackTrace);
+                        }
+                    }
+                }
             }
 
             Console.WriteLine($"Successfully updated {totalUpdated} rows in total.");
             return true;
+        }
+
+        static string BuildQuery(UpdatedPriceData priceData)
+        {
+            var query = "UPDATE prodsite SET";
+
+            if (!string.IsNullOrWhiteSpace(priceData.CostP1))
+            {
+                query += $" COSTP1 = {priceData.CostP1},";
+            }
+            if (!string.IsNullOrWhiteSpace(priceData.Markup1))
+            {
+                query += $" MARKUP1 = {priceData.Markup1},";
+            }
+            if (!string.IsNullOrWhiteSpace(priceData.Markup2))
+            {
+                query += $" MARKUP2 = {priceData.Markup2},";
+            }
+            if (!string.IsNullOrWhiteSpace(priceData.Markup3))
+            {
+                query += $" MARKUP3 = {priceData.Markup3},";
+            }
+            if (!string.IsNullOrWhiteSpace(priceData.Markup4))
+            {
+                query += $" MARKUP4 = {priceData.Markup4},";
+            }
+            if (!string.IsNullOrWhiteSpace(priceData.Sellunit))
+            {
+                query += $" SELLUNIT = '{priceData.Sellunit}',";
+            }
+            if (!string.IsNullOrWhiteSpace(priceData.NewProductCode))
+            {
+                query += $" PRODUCT = '{priceData.NewProductCode}',";
+            }
+
+            query.TrimEnd(',');
+
+            query += $" WHERE PRODUCT = '{priceData.Product}';";
+
+            return query;
         }
     }
 }
