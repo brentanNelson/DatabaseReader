@@ -18,9 +18,7 @@ namespace PriceUpdater.Models
 
         public string Sellunit { get; set; }
 
-        public string Barcode { get; set; }
-        
-        public string NewProductCode { get; set; }
+        public string Barcode { get; set; }        
     }
 
     public class UpdatedPriceDataMap : CsvClassMap<UpdatedPriceData>
@@ -35,7 +33,6 @@ namespace PriceUpdater.Models
             Map(m => m.Markup4);
             Map(m => m.Sellunit);
             Map(m => m.Barcode);
-            Map(m => m.NewProductCode);
         }
     }
 }

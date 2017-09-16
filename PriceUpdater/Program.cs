@@ -19,13 +19,11 @@ namespace PriceUpdater
             {
                 var csvData = ReadCsv();
                 var update = UpdatePrices(csvData);
-                Console.Read();
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
                 Console.WriteLine(e);
-                Console.Read();
             }
         }
 
@@ -41,6 +39,7 @@ namespace PriceUpdater
 
                 csvData.AddRange(csv.GetRecords<UpdatedPriceData>().ToList());
             }
+            
             Console.WriteLine($"{csvData.Count()} records found.");
             return csvData;
         }
@@ -52,9 +51,6 @@ namespace PriceUpdater
             foreach (var priceData in newPriceData)
             {
                 var query = BuildQuery(priceData);
-
-                Console.WriteLine(query);
-                Console.ReadLine();
 
                 using (var connection = new MySqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString))
                 using (var command = new MySqlCommand(query, connection))
@@ -144,15 +140,12 @@ namespace PriceUpdater
             {
                 query += $" SELLUNIT = '{priceData.Sellunit}',";
             }
-            if (!string.IsNullOrWhiteSpace(priceData.NewProductCode))
-            {
-                query += $" PRODUCT = '{priceData.NewProductCode}',";
-            }
 
             query = query.TrimEnd(',');
 
             query += $" WHERE PRODUCT = '{priceData.Product}';";
 
+            Console.WriteLine($"running - {query}");
             return query;
         }
     }
