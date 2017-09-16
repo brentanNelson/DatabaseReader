@@ -51,31 +51,32 @@ namespace PriceUpdater
             foreach (var priceData in newPriceData)
             {
                 var query = BuildQuery(priceData);
-
-                using (var connection = new MySqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString))
-                using (var command = new MySqlCommand(query, connection))
+                if (query != null)
                 {
-                    Console.WriteLine("Opening connection");
-                    try
+                    using (var connection = new MySqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString))
+                    using (var command = new MySqlCommand(query, connection))
                     {
-                        connection.Open();
-                        var updatedRows = command.ExecuteNonQuery();
-                        totalUpdated += updatedRows;
-                        Console.WriteLine($"Successfully updated {updatedRows} rows.");
-                        connection.Close();
-                    }
-                    catch (MySqlException exSql)
-                    {
-                        Console.Error.WriteLine("Error - SQL Exception: " + exSql);
-                        Console.Error.WriteLine(exSql.StackTrace);
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.Error.WriteLine("Error - Exception: " + ex);
-                        Console.Error.WriteLine(ex.StackTrace);
+                        Console.WriteLine("Opening connection");
+                        try
+                        {
+                            connection.Open();
+                            var updatedRows = command.ExecuteNonQuery();
+                            totalUpdated += updatedRows;
+                            Console.WriteLine($"Successfully updated {updatedRows} rows.");
+                            connection.Close();
+                        }
+                        catch (MySqlException exSql)
+                        {
+                            Console.Error.WriteLine("Error - SQL Exception: " + exSql);
+                            Console.Error.WriteLine(exSql.StackTrace);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.Error.WriteLine("Error - Exception: " + ex);
+                            Console.Error.WriteLine(ex.StackTrace);
+                        }
                     }
                 }
-        
                 if (!string.IsNullOrWhiteSpace(priceData.Barcode))
                 {
                     var barcodeQuery = $@"UPDATE prodsupp
@@ -140,6 +141,8 @@ namespace PriceUpdater
             {
                 query += $" SELLUNIT = '{priceData.Sellunit}',";
             }
+
+            if (query.Equals("UPDATE prodsite SET")) return null;
 
             query = query.TrimEnd(',');
 
